@@ -11,7 +11,7 @@ import java.util.Date;
 @Service
 public class JwtService {
  private final SecretKey key;
- public JwtService(@Value("\${jwt.secret}") String secret){key=Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));}
+ public JwtService(@Value("${jwt.secret}") String secret){key=Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));}
  public String generate(UserEntity user){
   Date now=new Date();
   return Jwts.builder().subject(user.getEmail()).claim("role",user.getRole().name())
