@@ -1,0 +1,28 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: login-postgres
+    environment:
+      POSTGRES_DB: login
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - login_data:/var/lib/postgresql/data
+
+  api:
+    build: ./backend
+    container_name: login-api
+    depends_on:
+      - postgres
+    environment:
+      DB_URL: jdbc:postgresql://postgres:5432/login
+      DB_USERNAME: postgres
+      DB_PASSWORD: postgres
+      JWT_SECRET: uma-chave-secreta-para-desenvolvimento-com-pelo-menos-32-caracteres
+    ports:
+      - "8080:8080"
+
+volumes:
+  login_data:
